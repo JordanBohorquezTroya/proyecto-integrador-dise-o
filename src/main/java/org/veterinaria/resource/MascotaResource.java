@@ -1,6 +1,7 @@
 package org.veterinaria.resource;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -19,7 +20,7 @@ public class MascotaResource {
     MascotaService mascotaService;
 
     @POST
-    public Response registrar(MascotaRequest request) {
+    public Response registrar(@Valid MascotaRequest request) {
         return Response.status(Response.Status.CREATED)
                 .entity(mascotaService.registrar(request))
                 .build();

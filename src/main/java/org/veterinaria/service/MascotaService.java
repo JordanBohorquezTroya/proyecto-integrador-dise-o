@@ -7,6 +7,7 @@ import jakarta.ws.rs.NotFoundException;
 import org.veterinaria.dto.MascotaRequest;
 import org.veterinaria.entity.Cliente;
 import org.veterinaria.entity.Mascota;
+import org.veterinaria.mapper.MascotaMapper;
 import org.veterinaria.repository.ClienteRepository;
 import org.veterinaria.repository.MascotaRepository;
 
@@ -28,16 +29,7 @@ public class MascotaService {
 
         Cliente cliente = obtenerOFallar(clienteRepository, request.clienteId(), "Cliente no encontrado");
 
-        Mascota mascota = new Mascota();
-
-        mascota.setNombre(request.nombre());
-        mascota.setEspecie(request.especie());
-        mascota.setRaza(request.raza());
-        mascota.setEdad(request.edad());
-        mascota.setPeso(request.peso());
-        mascota.setSexo(request.sexo());
-
-        mascota.setCliente(cliente);
+        Mascota mascota = MascotaMapper.toEntity(request, cliente);
 
         mascotaRepository.persist(mascota);
 

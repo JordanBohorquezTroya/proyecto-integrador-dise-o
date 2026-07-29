@@ -8,6 +8,7 @@ import org.veterinaria.dto.CitaRequest;
 import org.veterinaria.entity.Cita;
 import org.veterinaria.entity.Mascota;
 import org.veterinaria.entity.Veterinario;
+import org.veterinaria.mapper.CitaMapper;
 import org.veterinaria.repository.CitaRepository;
 import org.veterinaria.repository.MascotaRepository;
 import org.veterinaria.repository.VeterinarioRepository;
@@ -34,13 +35,8 @@ public class CitaService {
 
         Veterinario veterinario = obtenerOFallar(veterinarioRepository, request.veterinarioId(), "Veterinario no encontrado");
 
-        Cita cita = new Cita();
-        cita.setFecha(request.fecha());
-        cita.setHora(request.hora());
-        cita.setMotivo(request.motivo());
-        cita.setEstado("PROGRAMADA");
-        cita.setMascota(mascota);
-        cita.setVeterinario(veterinario);
+        Cita cita = CitaMapper.toEntity(request, mascota, veterinario);
+
         citaRepository.persist(cita);
         return cita;
     }

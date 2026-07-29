@@ -13,6 +13,7 @@ import org.veterinaria.repository.MascotaRepository;
 import org.veterinaria.repository.VeterinarioRepository;
 
 import java.util.List;
+import static org.veterinaria.util.BusquedaUtil.obtenerOFallar;
 
 @ApplicationScoped
 public class CitaService {
@@ -29,20 +30,11 @@ public class CitaService {
     @Transactional
     public Cita registrar(CitaRequest request){
 
-        Mascota mascota = mascotaRepository.findById(request.mascotaId());
+        Mascota mascota = obtenerOFallar(mascotaRepository, request.mascotaId(), "Mascota no encontrada");
 
-        if(mascota == null){
-            throw new NotFoundException("Mascota no encontrada");
-        }
-
-        Veterinario veterinario = veterinarioRepository.findById(request.veterinarioId());
-
-        if(veterinario == null){
-            throw new NotFoundException("Veterinario no encontrado");
-        }
+        Veterinario veterinario = obtenerOFallar(veterinarioRepository, request.veterinarioId(), "Veterinario no encontrado");
 
         Cita cita = new Cita();
-
         cita.setFecha(request.fecha());
         cita.setHora(request.hora());
         cita.setMotivo(request.motivo());
@@ -58,11 +50,7 @@ public class CitaService {
     }
 
     public Cita buscarPorId(Long id){
-        Cita cita = citaRepository.findById(id);
-        if(cita == null){
-            throw new NotFoundException("Cita no encontrada");
-        }
-        return cita;
+        return obtenerOFallar(citaRepository, id, "Cita no encontrada");
     }
 
 }

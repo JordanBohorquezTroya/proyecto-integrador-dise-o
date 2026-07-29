@@ -12,6 +12,8 @@ import org.veterinaria.repository.MascotaRepository;
 
 import java.util.List;
 
+import static org.veterinaria.util.BusquedaUtil.obtenerOFallar;
+
 @ApplicationScoped
 public class MascotaService {
 
@@ -24,11 +26,7 @@ public class MascotaService {
     @Transactional
     public Mascota registrar(MascotaRequest request){
 
-        Cliente cliente = clienteRepository.findById(request.clienteId());
-
-        if(cliente == null){
-            throw new NotFoundException("Cliente no encontrado");
-        }
+        Cliente cliente = obtenerOFallar(clienteRepository, request.clienteId(), "Cliente no encontrado");
 
         Mascota mascota = new Mascota();
 
@@ -51,14 +49,7 @@ public class MascotaService {
     }
 
     public Mascota buscarPorId(Long id){
-
-        Mascota mascota = mascotaRepository.findById(id);
-
-        if(mascota == null){
-            throw new NotFoundException("Mascota no encontrada");
-        }
-
-        return mascota;
+        return obtenerOFallar(mascotaRepository, id, "Mascota no encontrada");
     }
 
 }

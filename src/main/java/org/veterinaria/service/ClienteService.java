@@ -10,6 +10,8 @@ import org.veterinaria.repository.ClienteRepository;
 
 import java.util.List;
 
+import static org.veterinaria.util.BusquedaUtil.obtenerOFallar;
+
 @ApplicationScoped
 public class ClienteService {
 
@@ -33,11 +35,7 @@ public class ClienteService {
     }
 
     public Cliente buscarPorId(Long id){
-        Cliente cliente = clienteRepository.findById(id);
-        if(cliente == null){
-            throw new NotFoundException("Cliente no encontrado");
-        }
-        return cliente;
+        return obtenerOFallar(clienteRepository, id, "Cliente no encontrado");
     }
 
 }

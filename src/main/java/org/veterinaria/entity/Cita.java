@@ -46,6 +46,7 @@ public class Cita extends PanacheEntity {
     }
 
     private void validarTransicion() {
+        //validaciones
         if (estado == EstadoCita.ATENDIDA || estado == EstadoCita.CANCELADA) {
             throw new IllegalStateException(
                     "No se puede cambiar el estado de una cita que ya está " + estado);
